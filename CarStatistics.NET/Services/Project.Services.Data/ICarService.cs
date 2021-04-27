@@ -11,7 +11,7 @@
 
         Task Edit(EditCarServiceModel model);
 
-        IEnumerable<CarsOfUserListingServiceModel> SearchByUser(string UserName);
+        IEnumerable<CarsOfUserListingServiceModel> SearchByUserId(string id);
 
         CarDetails GetCarDetails(int carId);
 

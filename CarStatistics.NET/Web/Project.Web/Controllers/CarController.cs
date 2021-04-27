@@ -23,9 +23,9 @@
             return this.View(model);
         }
 
-        public IActionResult All()
+        public IActionResult All(string id)
         {
-            var allCars = this.carService.SearchByUser("st.g.nachev@gmail.com");
+            var allCars = this.carService.SearchByUserId(id);
             var model = new CarListingViewModel { Cars = allCars };
             return this.View(model);
         }
@@ -59,7 +59,7 @@
                 UserId = input.UserId,
             };
             await this.carService.Create(carServiceModel);
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.All), new { id = input.UserId });
         }
 
         public IActionResult Delete(int id)

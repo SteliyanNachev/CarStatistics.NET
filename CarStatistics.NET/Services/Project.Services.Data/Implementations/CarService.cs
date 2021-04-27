@@ -106,11 +106,11 @@
         }
 
         // Should search by ID not by Email
-        public IEnumerable<CarsOfUserListingServiceModel> SearchByUser(string email)
+        public IEnumerable<CarsOfUserListingServiceModel> SearchByUserId(string id)
         {
             var cars = this.carRepository
                 .AllAsNoTracking()
-                .Where(car => car.User.Email.ToLower() == email)
+                .Where(car => car.User.Id == id)
                 .Select(car => new CarsOfUserListingServiceModel
                 {
                     Id = car.Id,
