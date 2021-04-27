@@ -42,7 +42,7 @@
        }
 
         [HttpPost]
-        public async Task<IActionResult> Create(int carId, CreateRepairViewModel input)
+        public async Task<IActionResult> Create(int id, CreateRepairViewModel input)
        {
            if (!this.ModelState.IsValid)
            {
@@ -58,10 +58,10 @@
                Discount = input.Discount,
                Notes = input.Notes,
                RepairShop = input.RepairShop,
-               CarId = input.CarId,
+               CarId = id,
            };
            await this.repairService.Create(repairServiceModel);
-           return this.RedirectToAction(nameof(this.All), new { id = input.CarId });
+           return this.RedirectToAction(nameof(this.All), new { id = id });
        }
       
       // public IActionResult Delete(int id)
