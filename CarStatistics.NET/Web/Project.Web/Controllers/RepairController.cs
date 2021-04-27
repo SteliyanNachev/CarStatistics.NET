@@ -27,10 +27,10 @@
       //     return this.View(model);
       // }
       //
-        public IActionResult All(int carId)
+        public IActionResult All(int id)
        {
-           var allRepairs = this.repairService.SearchByCarId(carId);
-           var model = new RepairListingViewModel { Repairs = allRepairs, CarId = carId };
+           var allRepairs = this.repairService.SearchByCarId(id);
+           var model = new RepairListingViewModel { Repairs = allRepairs, CarId = id };
            return this.View(model);
        }
 
@@ -58,10 +58,10 @@
                Discount = input.Discount,
                Notes = input.Notes,
                RepairShop = input.RepairShop,
-               CarId = 4,
+               CarId = input.CarId,
            };
            await this.repairService.Create(repairServiceModel);
-           return this.RedirectToAction(nameof(this.All), new { carId = input.CarId });
+           return this.RedirectToAction(nameof(this.All), new { id = input.CarId });
        }
       
       // public IActionResult Delete(int id)
