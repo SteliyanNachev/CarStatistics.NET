@@ -1,0 +1,18 @@
+﻿@using Project.Web.ViewModels.Car
+
+@model CarDetailsViewModel
+<h1>Are you sure you want to delete the fallowing car ?</h1>
+<div>
+    <p>@Model.CarDetails.Make</p>
+    <p>@Model.CarDetails.Model</p>
+    <p>@Model.CarDetails.Colour</p>
+    <p>@Model.CarDetails.Kilometers</p>
+    <p>@Model.CarDetails.EngineSize</p>
+    <p>@Model.CarDetails.Fuel</p>
+</div>
+<div>
+    <a href="/Car/All" class="btn btn-sm btn-info">No</a>
+</div>
+<div>
+    <a href="/Car/ConfirmDelete/@Model.CarDetails.Id" class="btn btn-sm btn-danger">Yes</a>
+</div>

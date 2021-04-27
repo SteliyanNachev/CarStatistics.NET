@@ -1,0 +1,106 @@
+﻿@using Project.Web.ViewModels.Car
+@model CarDetailsViewModel
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            Make
+        </th>
+        <th>
+            Model
+        </th>
+        <th>
+            Fuel
+        </th>
+        <th>
+            EngineSize
+        </th>
+        <th>
+            Milage
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Colour
+        </th>
+        <th>
+            FirstRegistration
+        </th>
+        <th>
+            Repairs
+        </th>
+        <th>
+            Other Costs
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    <tr>
+        <td>
+            @Model.CarDetails.Make
+        </td>
+        <td>
+            @Model.CarDetails.Model
+        </td>
+        <td>
+            @Model.CarDetails.Fuel
+        </td>
+        <td>
+            @Model.CarDetails.EngineSize
+        </td>
+        <td>
+            @Model.CarDetails.Kilometers
+        </td>
+        <td>
+            @Model.CarDetails.Type
+        </td>
+        <td>
+            @Model.CarDetails.Colour
+        </td>
+        <td>
+            @Model.CarDetails.FirstRegistration.ToShortDateString()
+        </td>
+        <td>
+            <div class="dropdown">
+
+                <a href="/Repairs/All/@Model.CarDetails.Id" class="btn btn-sm btn-info dropbtn">
+                    All Repairs
+                    <i class="fa fa-caret-down"></i>
+                </a>
+
+                <div class="dropdown-content">
+                    
+
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="dropdown">
+                <a href="/OtherCosts/All/@Model.CarDetails.Id" class="btn btn-sm btn-info dropbtn">
+                    All Other Costs
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-content">
+                    
+
+                </div>
+            </div>
+        </td>
+        <td>
+            <a href="/Car/Edit/@Model.CarDetails.Id" class="btn btn-sm btn-info">Edit</a>
+        </td>
+        <td>
+            <a href="/Car/Delete/@Model.CarDetails.Id" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+    </tr>
+
+</table>
+<div>
+    <a asp-action="All">Back to List</a>
+</div>
