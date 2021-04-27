@@ -5,8 +5,12 @@
 
     using Project.Data.Models;
 
-    public class CreateRepairServiceModel
+    public class RepairsOfCarListingServiceModel
     {
+        public int Id { get; set; }
+
+        public string CarMakeModel { get; set; }
+
         public DateTime DateOfRepair { get; set; }
 
         public decimal CurrentCarKilometers { get; set; }
@@ -15,11 +19,13 @@
 
         public decimal Discount { get; set; }
 
+        public decimal RepairTotalCost { get; set; }
+
         public string Notes { get; set; }
 
-        public int RepairShop { get; set; }
+        public string RepairShop { get; set; }
 
-        public int CarId { get; set; }
+        public decimal PartsTotalCost { get; set; }
 
         public ICollection<Part> Parts { get; set; }
     }

@@ -98,8 +98,7 @@
                     FirstRegistration = car.FirstRegistration,
                     EngineSize = car.EngineSize,
                     Type = car.Type,
-
-                   // Repairs=car.Repairs,
+                    Repairs = car.Repairs,
                    // OtherCosts=car.OtherCosts
                 })
                 .FirstOrDefault();

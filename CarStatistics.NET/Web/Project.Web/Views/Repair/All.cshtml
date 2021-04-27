@@ -1,0 +1,101 @@
+﻿@model Project.Web.ViewModels.Repairs.RepairListingViewModel
+
+@{
+    ViewData["Title"] = "All";
+}
+
+<h1>All</h1>
+
+<div>
+    <a href="/Repair/Create?carId=@Model.CarId" class="btn btn-success d-block">Add Repair</a>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            Car
+        </th>
+        <th>
+            Repair Shop Name
+        </th>
+        <th>
+            Date Of Repair
+        </th>
+        <th>
+            Discount
+        </th>
+        <th>
+            Work Cost
+        </th>
+        <th>
+            Parts
+        </th>
+        <th>
+            Parts Total Cost
+        </th>
+        <th>
+            Repair Total Cost
+        </th>
+        <th>
+            Current Car Kilometers
+        </th>
+        <th>
+            Notes
+        </th>
+    </tr>
+    @foreach (var repair in Model.Repairs)
+    {
+        <tr>
+            <td>
+                @repair.CarMakeModel
+            </td>
+            <td>
+                @repair.RepairShop
+            </td>
+
+            <td>
+                @repair.DateOfRepair.ToShortDateString();
+            </td>
+            <td>
+                @repair.Discount %
+            </td>
+            <td>
+                @repair.WorkCost
+            </td>
+            <td>
+                <div class="dropdown">
+                    <a href="/Parts/All/@repair.Id" class="btn btn-sm btn-info dropbtn">
+                        Parts
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        @foreach (var part in repair.Parts)
+                        {
+                            <a href="#">@part.Type</a>
+                        }
+                    </div>
+                </div>
+            </td>
+            <td>
+                @repair.PartsTotalCost
+            </td>
+            <td>
+                @repair.RepairTotalCost
+            </td>
+            <td>
+                @repair.CurrentCarKilometers
+            </td>
+            <td>
+                @repair.Notes
+            </td>
+            <td>
+                <a href="/Repairs/Edit/@repair.Id" class="btn btn-sm btn-info">Edit</a>
+            </td>
+            <td>
+                <a href="/Repairs/Delete/@repair.Id" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    <a href="/Car/CarDetails?carId=@Model.CarId" class="btn btn-sm btn-info">Back to List</a>
+</div>

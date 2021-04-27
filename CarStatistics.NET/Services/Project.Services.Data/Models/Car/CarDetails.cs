@@ -1,6 +1,8 @@
 ﻿namespace Project.Services.Data.Models.Car
 {
+    using Project.Data.Models;
     using System;
+    using System.Collections.Generic;
 
     public class CarDetails
     {
@@ -22,7 +24,7 @@
 
         public decimal Kilometers { get; set; }
 
-       // public ICollection<Repair> Repairs { get; set; }
+        public ICollection<Repair> Repairs { get; set; }
        // public ICollection<CarStatistics.Models.OtherCosts> OtherCosts { get; set; }
     }
 }

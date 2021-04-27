@@ -11,9 +11,9 @@
 
         // Task Edit(EditCarServiceModel model);
 
-        // IEnumerable<CarsOfUserListingServiceModel> SearchByUser(string UserName);
+        IEnumerable<RepairsOfCarListingServiceModel> SearchByCarId(int carId);
 
-        // CarDetails GetCarDetails(int carId);
+        RepairDetailsServiceModel GetRepairDetails(int repairId);
 
         // Task<bool> Delete(int id);
 

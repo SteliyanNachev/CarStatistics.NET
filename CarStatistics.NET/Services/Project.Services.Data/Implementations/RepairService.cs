@@ -37,8 +37,30 @@
                 .FirstOrDefault(c => c.Id == model.CarId);
 
             car.Kilometers = model.CurrentCarKilometers;
+            this.carsRepository.Update(car);
             await this.repairRepository.AddAsync(repair);
             await this.repairRepository.SaveChangesAsync();
+        }
+
+        public RepairDetailsServiceModel GetRepairDetails(int repairId)
+        {
+            var repair = this.repairRepository
+               .AllAsNoTracking()
+               .Where(r => r.Id == repairId)
+               .Select(r => new RepairDetailsServiceModel
+               {
+                   Id = r.Id,
+                   DateOfRepair = r.DateOfRepair,
+                   CurrentCarKilometers = r.CurrentCarKilometers,
+                   WorkCost = r.WorkCost,
+                   Discount = r.Discount,
+                   RepairTotalCost = r.RepairTotalCost,
+                   Notes = r.Notes,
+                   RepairShop = r.RepairShop,
+                   CarID = r.CarID,
+               }).FirstOrDefault();
+
+            return repair;
         }
 
         // public async Task<bool> Delete(int id)
@@ -85,46 +107,34 @@
         //      await this.carRepository.SaveChangesAsync();
         // }
         //
-        // public CarDetails GetCarDetails(int carId)
-        // {
-        //     var car = this.carRepository
-        //         .AllAsNoTracking()
-        //         .Where(car => car.Id == carId)
-        //         .Select(car => new CarDetails
-        //         {
-        //             Id = car.Id,
-        //             Make = car.Make,
-        //             Model = car.Model,
-        //             Fuel = car.Fuel,
-        //             Colour = car.Colour,
-        //             Kilometers = car.Kilometers,
-        //             FirstRegistration = car.FirstRegistration,
-        //             EngineSize = car.EngineSize,
-        //             Type = car.Type,
-        //
-        //            // Repairs=car.Repairs,
-        //            // OtherCosts=car.OtherCosts
-        //         })
-        //         .FirstOrDefault();
-        //     return car;
-        // }
         //
         // // Should search by ID not by Email
-        // public IEnumerable<CarsOfUserListingServiceModel> SearchByUser(string email)
-        // {
-        //     var cars = this.carRepository
-        //         .AllAsNoTracking()
-        //         .Where(car => car.User.Email.ToLower() == email)
-        //         .Select(car => new CarsOfUserListingServiceModel
-        //         {
-        //             Id = car.Id,
-        //             Make = car.Make,
-        //             Model = car.Model,
-        //             Fuel = car.Fuel,
-        //             Kilometers = car.Kilometers,
-        //         })
-        //         .ToList();
-        //     return cars;
-        // }
+        public IEnumerable<RepairsOfCarListingServiceModel> SearchByCarId(int carId)
+        {
+            var cars = this.repairRepository
+                .AllAsNoTracking()
+                .Where(repair => repair.CarID == carId)
+                .Select(r => new RepairsOfCarListingServiceModel
+                {
+                    Id = r.Id,
+                    CarMakeModel = $"{r.Car.Make} {r.Car.Model}",
+                    DateOfRepair = r.DateOfRepair,
+                    CurrentCarKilometers = r.Car.Kilometers,
+                    WorkCost = r.WorkCost,
+                    Discount = r.Discount,
+                    RepairTotalCost = (r.WorkCost - (r.Discount / 100 * r.WorkCost)) + r.Parts
+                       .Select(p => p.TotalPrice)
+                       .Sum(),
+                    Notes = r.Notes,
+                    RepairShop = r.RepairShop.Name,
+                    Parts = r.Parts
+                       .ToList(),
+                    PartsTotalCost = r.Parts
+                       .Select(p => p.TotalPrice)
+                       .Sum(),
+                })
+                .ToList();
+            return cars;
+        }
     }
 }

@@ -27,13 +27,13 @@
       //     return this.View(model);
       // }
       //
-      // public IActionResult All()
-      // {
-      //     var allCars = this.carService.SearchByUser("st.g.nachev@gmail.com");
-      //     var model = new CarListingViewModel { Cars = allCars };
-      //     return this.View(model);
-      // }
-      //
+        public IActionResult All(int carId)
+       {
+           var allRepairs = this.repairService.SearchByCarId(carId);
+           var model = new RepairListingViewModel { Repairs = allRepairs, CarId = carId };
+           return this.View(model);
+       }
+
         public IActionResult Create(int carId)
        {
            var model = new CreateRepairViewModel();
@@ -41,32 +41,29 @@
            return this.View(model);
        }
 
-      //
-      // [HttpPost]
-      // public async Task<IActionResult> Create(CreateCarViewModel input)
-      // {
-      //     if (!this.ModelState.IsValid)
-      //     {
-      //         // input.UsersEmails=
-      //         return this.View(input);
-      //     }
-      //
-      //     var carServiceModel = new CreateCarServiceModel()
-      //     {
-      //         Make = input.Make,
-      //         Model = input.Model,
-      //         FirstRegistration = input.FirstRegistration,
-      //         Fuel = input.Fuel,
-      //         EngineSize = input.EngineSize,
-      //         Colour = input.Colour,
-      //         Kilometers = input.Kilometers,
-      //         Type = input.Type,
-      //         UserId = input.UserId,
-      //     };
-      //     await this.carService.Create(carServiceModel);
-      //     return this.RedirectToAction(nameof(this.All));
-      // }
-      //
+        [HttpPost]
+        public async Task<IActionResult> Create(int carId, CreateRepairViewModel input)
+       {
+           if (!this.ModelState.IsValid)
+           {
+               // input.UsersEmails=
+               return this.View(input);
+           }
+
+           var repairServiceModel = new CreateRepairServiceModel()
+           {
+               DateOfRepair = input.DateOfRepair,
+               CurrentCarKilometers = input.CurrentCarKilometers,
+               WorkCost = input.WorkCost,
+               Discount = input.Discount,
+               Notes = input.Notes,
+               RepairShop = input.RepairShop,
+               CarId = 4,
+           };
+           await this.repairService.Create(repairServiceModel);
+           return this.RedirectToAction(nameof(this.All), new { carId = input.CarId });
+       }
+      
       // public IActionResult Delete(int id)
       // {
       //     var carDetails = this.carService.GetCarDetails(id);
