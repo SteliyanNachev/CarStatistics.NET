@@ -87,46 +87,35 @@
       //     return this.RedirectToAction(nameof(this.All));
       // }
       //
-      // public IActionResult Edit(int id)
-      // {
-      //     var car = this.carService.GetCarDetails(id);
-      //     if (car == null)
-      //     {
-      //         return this.BadRequest();
-      //     }
-      //
-      //     var model = new EditCarViewModel()
-      //     {
-      //         Id = car.Id,
-      //         Make = car.Make,
-      //         Model = car.Model,
-      //         FirstRegistration = car.FirstRegistration,
-      //         Fuel = car.Fuel,
-      //         EngineSize = car.EngineSize,
-      //         Colour = car.Colour,
-      //         Kilometers = car.Kilometers,
-      //         Type = car.Type,
-      //     };
-      //     return this.View(model);
-      // }
-      //
-      // [HttpPost]
-      // public async Task<IActionResult> Edit(EditCarViewModel carModel)
-      // {
-      //     var editCarServiceModel = new EditCarServiceModel
-      //     {
-      //         Id = carModel.Id,
-      //         Make = carModel.Make,
-      //         Model = carModel.Model,
-      //         FirstRegistration = carModel.FirstRegistration,
-      //         Fuel = carModel.Fuel,
-      //         EngineSize = carModel.EngineSize,
-      //         Colour = carModel.Colour,
-      //         Kilometers = carModel.Kilometers,
-      //         Type = carModel.Type,
-      //     };
-      //     await this.carService.Edit(editCarServiceModel);
-      //     return this.RedirectToAction(nameof(this.All));
-      // }
+        public IActionResult Edit(int id)
+      {
+          var repair = this.repairService.GetRepairDetails(id);
+          if (repair == null)
+          {
+              return this.BadRequest();
+          }
+
+          var model = new EditRepairViewModel();
+          model.CarId = id;
+          return this.View(model);
+      }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, int carId, EditRepairViewModel repairModel)
+      {
+          var editRepairServiceModel = new EditRepairServiceModel
+          {
+              Id = id,
+              DateOfRepair = repairModel.DateOfRepair,
+              CurrentCarKilometers = repairModel.CurrentCarKilometers,
+              WorkCost = repairModel.WorkCost,
+              Discount = repairModel.Discount,
+              Notes = repairModel.Notes,
+              RepairShop = repairModel.RepairShop,
+              CarId = carId,
+          };
+          await this.repairService.Edit(editRepairServiceModel);
+          return this.RedirectToAction(nameof(this.All), new { id = id });
+        }
     }
 }

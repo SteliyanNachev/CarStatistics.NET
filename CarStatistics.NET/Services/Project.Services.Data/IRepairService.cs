@@ -9,14 +9,12 @@
     {
         Task Create(CreateRepairServiceModel model);
 
-        // Task Edit(EditCarServiceModel model);
+        Task Edit(EditRepairServiceModel model);
 
         IEnumerable<RepairsOfCarListingServiceModel> SearchByCarId(int carId);
 
         RepairDetailsServiceModel GetRepairDetails(int repairId);
 
         // Task<bool> Delete(int id);
-
-        // IEnumerable<KeyValuePair<string, string>> GetAllUsersWithEmails();
     }
 }

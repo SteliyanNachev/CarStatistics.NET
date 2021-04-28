@@ -88,27 +88,32 @@
         //         .Select(x => new KeyValuePair<string, string>(x.Id, x.Email));
         // }
         //
-        // public async Task Edit(EditCarServiceModel model)
-        //  {
-        //      var car = this.carRepository
-        //         .AllAsNoTracking()
-        //         .Where(x => x.Id == model.Id)
-        //         .FirstOrDefault();
-        //
-        //      car.Make = model.Make;
-        //      car.Model = model.Model;
-        //      car.Type = model.Type;
-        //      car.Colour = model.Colour;
-        //      car.Kilometers = model.Kilometers;
-        //      car.EngineSize = model.EngineSize;
-        //      car.Fuel = model.Fuel;
-        //
-        //      this.carRepository.Update(car);
-        //      await this.carRepository.SaveChangesAsync();
-        // }
-        //
-        //
-        // // Should search by ID not by Email
+        public async Task Edit(EditRepairServiceModel model)
+         {
+            var repair = this.repairRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == model.Id)
+                .FirstOrDefault();
+
+            repair.DateOfRepair = model.DateOfRepair;
+            repair.CarID = model.CarId;
+            repair.RepairShopId = model.RepairShop;
+            repair.Notes = model.Notes;
+            repair.Discount = model.Discount;
+            repair.WorkCost = model.WorkCost;
+            repair.CurrentCarKilometers = model.CurrentCarKilometers;
+
+            var car = this.carsRepository
+                .AllAsNoTracking()
+                .FirstOrDefault(c => c.Id == model.CarId);
+
+            car.Kilometers = model.CurrentCarKilometers;
+            this.carsRepository.Update(car);
+            this.repairRepository.Update(repair);
+            await this.repairRepository.SaveChangesAsync();
+        }
+
+        // Should search by ID not by Email
         public IEnumerable<RepairsOfCarListingServiceModel> SearchByCarId(int carId)
         {
             var cars = this.repairRepository
