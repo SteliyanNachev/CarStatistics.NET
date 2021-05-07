@@ -1,15 +1,11 @@
 ﻿namespace Project.Web.Controllers
 {
-    using System;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Project.Data.Common.Repositories;
-    using Project.Data.Models;
     using Project.Services.Data;
     using Project.Services.Data.Models.Repairs;
     using Project.Web.ViewModels.Repairs;
-    using Project.Web.ViewModels.Settings;
 
     public class RepairController : BaseController
     {

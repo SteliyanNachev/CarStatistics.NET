@@ -1,8 +1,9 @@
 ﻿namespace Project.Web.Controllers
 {
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Project.Data.Models;
     using Project.Services.Data;
     using Project.Services.Data.Models.Car;
     using Project.Web.ViewModels.Car;
@@ -10,10 +11,12 @@
     public class CarController : BaseController
     {
         private readonly ICarService carService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public CarController(ICarService carService)
+        public CarController(ICarService carService, UserManager<ApplicationUser> userManager)
         {
             this.carService = carService;
+            this.userManager = userManager;
         }
 
         public IActionResult CarDetails(int id)
@@ -23,9 +26,10 @@
             return this.View(model);
         }
 
-        public IActionResult All(string id)
+        public IActionResult All()
         {
-            var allCars = this.carService.SearchByUserId(id);
+            var userID = this.userManager.GetUserId(this.User);
+            var allCars = this.carService.SearchByUserId(userID);
             var model = new CarListingViewModel { Cars = allCars };
             return this.View(model);
         }
@@ -40,6 +44,8 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateCarViewModel input)
         {
+            var userID = this.userManager.GetUserId(this.User);
+
             if (!this.ModelState.IsValid)
             {
                 // input.UsersEmails=
@@ -56,10 +62,10 @@
                 Colour = input.Colour,
                 Kilometers = input.Kilometers,
                 Type = input.Type,
-                UserId = input.UserId,
+                UserId = userID,
             };
             await this.carService.Create(carServiceModel);
-            return this.RedirectToAction(nameof(this.All), new { id = input.UserId });
+            return this.RedirectToAction(nameof(this.All));
         }
 
         public IActionResult Delete(int id)
