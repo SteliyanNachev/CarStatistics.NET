@@ -13,11 +13,16 @@
     {
         private readonly IDeletableEntityRepository<Repair> repairRepository;
         private readonly IDeletableEntityRepository<Car> carsRepository;
+        private readonly IDeletableEntityRepository<RepairShop> repairShopRepository;
 
-        public RepairService(IDeletableEntityRepository<Repair> repairRepository, IDeletableEntityRepository<Car> carsRepository)
+        public RepairService(
+            IDeletableEntityRepository<Repair> repairRepository,
+            IDeletableEntityRepository<Car> carsRepository,
+            IDeletableEntityRepository<RepairShop> repairShopRepository)
         {
             this.carsRepository = carsRepository;
             this.repairRepository = repairRepository;
+            this.repairShopRepository = repairShopRepository;
         }
 
         public async Task Create(CreateRepairServiceModel model)
@@ -140,6 +145,18 @@
                 })
                 .ToList();
             return cars;
+        }
+
+        public IEnumerable<KeyValuePair<int, string>> GetAllRepairShops()
+        {
+            return this.repairShopRepository.AllAsNoTracking()
+                 .Select(x => new
+                 {
+                     x.Id,
+                     x.Name,
+                 })
+                 .ToList()
+                 .Select(x => new KeyValuePair<int, string>(x.Id, x.Name));
         }
     }
 }

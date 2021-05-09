@@ -33,6 +33,7 @@
         public IActionResult Create(int carId)
        {
            var model = new CreateRepairViewModel();
+           model.RepairShops = this.repairService.GetAllRepairShops();
            model.CarId = carId;
            return this.View(model);
        }
@@ -53,13 +54,13 @@
                WorkCost = input.WorkCost,
                Discount = input.Discount,
                Notes = input.Notes,
-               RepairShop = input.RepairShop,
+               RepairShop = int.Parse(input.RepairShop),
                CarId = id,
            };
            await this.repairService.Create(repairServiceModel);
            return this.RedirectToAction(nameof(this.All), new { id = id });
        }
-      
+
       // public IActionResult Delete(int id)
       // {
       //     var carDetails = this.carService.GetCarDetails(id);
@@ -92,6 +93,7 @@
           }
 
           var model = new EditRepairViewModel();
+          model.RepairShops = this.repairService.GetAllRepairShops();
           model.CarId = id;
           return this.View(model);
       }
@@ -107,7 +109,7 @@
               WorkCost = repairModel.WorkCost,
               Discount = repairModel.Discount,
               Notes = repairModel.Notes,
-              RepairShop = repairModel.RepairShop,
+              RepairShop = int.Parse(repairModel.RepairShop),
               CarId = carId,
           };
           await this.repairService.Edit(editRepairServiceModel);

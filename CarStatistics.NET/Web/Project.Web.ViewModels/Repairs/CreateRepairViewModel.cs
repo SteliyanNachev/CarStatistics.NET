@@ -1,6 +1,7 @@
 ﻿namespace Project.Web.ViewModels.Repairs
 {
     using System;
+    using System.Collections.Generic;
 
     public class CreateRepairViewModel
     {
@@ -14,7 +15,9 @@
 
         public string Notes { get; set; }
 
-        public int RepairShop { get; set; }
+        public string RepairShop { get; set; }
+
+        public IEnumerable<KeyValuePair<int, string>> RepairShops { get; set; }
 
         public int CarId { get; set; }
     }
