@@ -16,13 +16,6 @@
             this.repairService = repairService;
         }
 
-      // public IActionResult CarDetails(int id)
-      // {
-      //     var carDetails = this.carService.GetCarDetails(id);
-      //     var model = new CarDetailsViewModel { CarDetails = carDetails };
-      //     return this.View(model);
-      // }
-      //
         public IActionResult All(int id)
        {
            var allRepairs = this.repairService.SearchByCarId(id);
@@ -61,28 +54,40 @@
            return this.RedirectToAction(nameof(this.All), new { id = id });
        }
 
-      // public IActionResult Delete(int id)
-      // {
-      //     var carDetails = this.carService.GetCarDetails(id);
-      //     var model = new CarDetailsViewModel { CarDetails = carDetails };
-      //     if (carDetails == null)
-      //     {
-      //         return this.BadRequest();
-      //     }
-      //
-      //     return this.View(model);
-      // }
-      //
-      // public async Task<IActionResult> ConfirmDelete(int id)
-      // {
-      //     var deleted = await this.carService.Delete(id);
-      //     if (!deleted)
-      //     {
-      //         return this.BadRequest();
-      //     }
-      //
-      //     return this.RedirectToAction(nameof(this.All));
-      // }
+        public IActionResult Delete(int id)
+       {
+            var repair = this.repairService.GetRepairDetails(id);
+
+            if (repair == null)
+           {
+               return this.BadRequest();
+           }
+
+            var model = new EditRepairViewModel
+            {
+                Id = id,
+                CarId = repair.CarID,
+                CurrentCarKilometers = repair.CurrentCarKilometers,
+                DateOfRepair = repair.DateOfRepair,
+                WorkCost = repair.WorkCost,
+                Notes = repair.Notes,
+                Discount = repair.Discount,
+            };
+            return this.View(model);
+       }
+
+        public async Task<IActionResult> ConfirmDelete(int id)
+       {
+            var repair = this.repairService.GetRepairDetails(id);
+            var deleted = await this.repairService.Delete(id);
+            if (!deleted)
+           {
+               return this.BadRequest();
+           }
+
+            return this.RedirectToAction(nameof(this.All), new { id = repair.CarID });
+       }
+
         public IActionResult Edit(int id)
       {
           var repair = this.repairService.GetRepairDetails(id);
@@ -95,6 +100,8 @@
           model.RepairShops = this.repairService.GetAllRepairShops();
           model.CurrentCarKilometers = repair.CurrentCarKilometers;
           model.DateOfRepair = repair.DateOfRepair;
+          model.WorkCost = repair.WorkCost;
+          model.Notes = repair.Notes;
           model.Discount = repair.Discount;
           return this.View(model);
       }

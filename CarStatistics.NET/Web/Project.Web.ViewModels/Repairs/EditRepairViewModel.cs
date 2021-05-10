@@ -6,6 +6,8 @@
 
     public class EditRepairViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         public DateTime DateOfRepair { get; set; }
 

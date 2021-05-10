@@ -68,31 +68,19 @@
             return repair;
         }
 
-        // public async Task<bool> Delete(int id)
-        // {
-        //     var car = this.carRepository.AllAsNoTracking().Where(x => x.Id == id).FirstOrDefault();
-        //     if (car == null)
-        //     {
-        //         return true;
-        //     }
-        //
-        //     this.carRepository.Delete(car);
-        //     await this.carRepository.SaveChangesAsync();
-        //     return true;
-        // }
-        //
-        // public IEnumerable<KeyValuePair<string, string>> GetAllUsersWithEmails()
-        // {
-        //    return this.usersRepository.AllAsNoTracking()
-        //         .Select(x => new
-        //         {
-        //             x.Id,
-        //             x.Email,
-        //         })
-        //         .ToList()
-        //         .Select(x => new KeyValuePair<string, string>(x.Id, x.Email));
-        // }
-        //
+        public async Task<bool> Delete(int id)
+         {
+             var car = this.repairRepository.AllAsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+             if (car == null)
+             {
+                 return true;
+             }
+
+             this.repairRepository.Delete(car);
+             await this.repairRepository.SaveChangesAsync();
+             return true;
+         }
+
         public async Task Edit(EditRepairServiceModel model)
          {
             var repair = this.repairRepository

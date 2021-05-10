@@ -15,7 +15,8 @@
 
         RepairDetailsServiceModel GetRepairDetails(int repairId);
 
-        // Task<bool> Delete(int id);
+        Task<bool> Delete(int id);
+
         IEnumerable<KeyValuePair<int, string>> GetAllRepairShops();
     }
 }

@@ -1,0 +1,17 @@
+﻿@using Project.Web.ViewModels.Repairs
+
+@model EditRepairViewModel
+<h1>Are you sure you want to delete the fallowing Repair ?</h1>
+<div>
+    <p>@Model.DateOfRepair</p>
+    <p>@Model.CurrentCarKilometers</p>
+    <p>@Model.Discount</p>
+    <p>@Model.Notes</p>
+    <p>@Model.WorkCost</p>
+</div>
+<div>
+    <a href="/Repair/All/@Model.CarId" class="btn btn-sm btn-info">No</a>
+</div>
+<div>
+    <a href="/Repair/ConfirmDelete/@Model.Id" class="btn btn-sm btn-danger">Yes</a>
+</div>
