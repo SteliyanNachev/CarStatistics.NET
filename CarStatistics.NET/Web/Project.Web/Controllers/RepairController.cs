@@ -83,7 +83,6 @@
       //
       //     return this.RedirectToAction(nameof(this.All));
       // }
-      //
         public IActionResult Edit(int id)
       {
           var repair = this.repairService.GetRepairDetails(id);
@@ -94,14 +93,18 @@
 
           var model = new EditRepairViewModel();
           model.RepairShops = this.repairService.GetAllRepairShops();
-          model.CarId = id;
+          model.CurrentCarKilometers = repair.CurrentCarKilometers;
+          model.DateOfRepair = repair.DateOfRepair;
+          model.Discount = repair.Discount;
           return this.View(model);
       }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, int carId, EditRepairViewModel repairModel)
+        public async Task<IActionResult> Edit(int id, EditRepairViewModel repairModel)
       {
-          var editRepairServiceModel = new EditRepairServiceModel
+            var repair = this.repairService.GetRepairDetails(id);
+
+            var editRepairServiceModel = new EditRepairServiceModel
           {
               Id = id,
               DateOfRepair = repairModel.DateOfRepair,
@@ -110,10 +113,10 @@
               Discount = repairModel.Discount,
               Notes = repairModel.Notes,
               RepairShop = int.Parse(repairModel.RepairShop),
-              CarId = carId,
+              CarId = repair.CarID,
           };
-          await this.repairService.Edit(editRepairServiceModel);
-          return this.RedirectToAction(nameof(this.All), new { id = id });
+            await this.repairService.Edit(editRepairServiceModel);
+            return this.RedirectToAction(nameof(this.All), new { id = repair.CarID });
         }
     }
 }

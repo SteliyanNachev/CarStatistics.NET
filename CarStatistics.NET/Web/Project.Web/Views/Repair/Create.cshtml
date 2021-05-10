@@ -38,9 +38,24 @@
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RepairShop" class="control-label"></label>
-                <select asp-for="RepairShop" class="form-control" asp-items="repairShops"></select>
+            <div class="d-flex row-cols-2">
+                <div class="form-group mr-3">
+                    <label asp-for="RepairShop" class="control-label"></label>
+                    <select asp-for="RepairShop" class="form-control" asp-items="repairShops"></select>
+                </div>
+                <span class="col-3 text-md-center bg-primary text-white rounded mr-3">Or Add New</span>
+                <div class="d-block">
+                    <div class="form-group mr-3">
+                        <label asp-for="RepairShopNewName" class="control-label"></label>
+                        <input asp-for="RepairShopNewName" class="form-control">
+                        <span asp-validation-for="RepairShopNewName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RepairShopNewTown" class="control-label"></label>
+                        <input asp-for="RepairShopNewTown" class="form-control">
+                        <span asp-validation-for="RepairShopNewTown" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
